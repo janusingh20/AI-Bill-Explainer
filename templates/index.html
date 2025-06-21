@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto py-12 space-y-8">
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="space-y-2">
+        {% for category, msg in messages %}
+          <div class="p-3 rounded bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="{{ url_for('analyze') }}" enctype="multipart/form-data"
+        class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow space-y-6">
+
+    <div>
+      <label class="block font-medium text-gray-800 dark:text-gray-200">Paste your bill text</label>
+      <textarea name="bill" rows="5"
+                class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded
+                       focus:outline-none focus:ring-2 focus:ring-blue-400
+                       bg-white dark:bg-gray-700 text-black dark:text-white"></textarea>
+    </div>
+
+    <div>
+      <label class="block font-medium text-gray-800 dark:text-gray-200">Or upload a bill (.pdf, .txt)</label>
+      <input type="file" name="file" accept=".pdf,.txt"
+             class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded
+                    focus:outline-none focus:ring-2 focus:ring-blue-400
+                    bg-white dark:bg-gray-700 text-black dark:text-white"/>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
+      <div>
+        <label class="block font-medium text-gray-800 dark:text-gray-200">Response language</label>
+        <select name="language"
+                class="mt-1 w-full p-2 border border-gray-300 dark:border-gray-600 rounded
+                       focus:outline-none focus:ring-2 focus:ring-blue-400
+                       bg-white dark:bg-gray-700 text-black dark:text-white">
+          <option>English</option>
+          <option>Spanish</option>
+          <option>French</option>
+          <option>German</option>
+          <option>Chinese</option>
+        </select>
+      </div>
+
+      <div class="flex items-center">
+        <input id="compare" name="compare" type="checkbox"
+               {% if compare %}checked{% endif %}
+               class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"/>
+        <label for="compare" class="ml-2 font-medium text-gray-800 dark:text-gray-200">
+          Compare with last month
+        </label>
+      </div>
+
+      <div>
+        <button type="submit"
+                class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white
+                       font-semibold rounded-lg transition">
+          Analyze
+        </button>
+      </div>
+    </div>
+  </form>
+
+  {% if result_text %}
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow space-y-4">
+    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Analysis</h2>
+    <pre class="whitespace-pre-wrap text-gray-900 dark:text-gray-100">{{ result_text }}</pre>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

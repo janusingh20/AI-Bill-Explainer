@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AI Bill Explainer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  </script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors">
+
+  <nav class="flex items-center justify-between px-6 py-4 bg-white dark:bg-gray-800">
+    <a href="{{ url_for('index') }}"
+       class="text-lg font-bold text-gray-800 dark:text-gray-200">
+      AI Bill Explainer
+    </a>
+    <div class="flex items-center space-x-4">
+      {% if current_user.is_authenticated %}
+        <a href="{{ url_for('history') }}"
+           class="text-gray-700 dark:text-gray-300 hover:underline">History</a>
+        <a href="{{ url_for('logout') }}"
+           class="text-gray-700 dark:text-gray-300 hover:underline">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}"
+           class="text-gray-700 dark:text-gray-300 hover:underline">Login</a>
+        <a href="{{ url_for('register') }}"
+           class="text-gray-700 dark:text-gray-300 hover:underline">Register</a>
+      {% endif %}
+      <button id="theme-toggle"
+              class="px-3 py-1 rounded bg-gray-200 dark:bg-gray-700
+                     text-gray-800 dark:text-gray-200">
+        Toggle Theme
+      </button>
+    </div>
+  </nav>
+
+  <main class="min-h-screen">
+    {% block content %}{% endblock %}
+  </main>
+
+  <script>
+    document.getElementById('theme-toggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark')
+      if (document.documentElement.classList.contains('dark')) {
+        localStorage.theme = 'dark'
+      } else {
+        localStorage.theme = 'light'
+      }
+    })
+  </script>
+</body>
+</html>

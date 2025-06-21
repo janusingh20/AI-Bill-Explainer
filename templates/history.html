@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-xl mx-auto space-y-6">
+  <h1 class="text-3xl font-bold text-center">Your Analysis History</h1>
+  {% for rpt in reports %}
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow space-y-2">
+    <div class="text-sm text-gray-500">{{ rpt.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+    <details class="cursor-pointer">
+      <summary class="font-medium">View Report</summary>
+      <pre class="mt-2 whitespace-pre-wrap text-gray-700 dark:text-gray-300">{{ rpt.analysis }}</pre>
+    </details>
+  </div>
+  {% else %}
+  <p class="text-center text-gray-600">No history yet—run an analysis first.</p>
+  {% endfor %}
+</div>
+{% endblock %}
