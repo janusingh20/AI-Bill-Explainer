@@ -2,7 +2,7 @@
 
 **Live Demo**: http://18.224.143.33/
 
-A Flask web application using Cohere’s LLM to analyze utility bills and deliver actionable insights, with user authentication, history, theme toggle, and compare functionality.
+A Flask web application using Cohere’s LLM to analyze utility bills and deliver actionable insights, with user authentication, history, and compare functionality.
 
 ## Features
 
